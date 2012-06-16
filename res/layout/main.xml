@@ -2,11 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:weightSum="6">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
+	<RelativeLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:orientation="horizontal" >
+	    
+	    <ImageButton
+	        android:id="@+id/previous"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:src="@android:drawable/ic_media_previous" />
+	
+	    <TextView
+	        android:id="@+id/date"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:layout_centerInParent="true"
+	        android:gravity="center"
+	        android:text="Monday 21.06.2012"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	
+	    <ImageButton
+	        android:id="@+id/next"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+	        android:src="@android:drawable/ic_media_next" />
+	</RelativeLayout>
+
+	<ListView
+        android:id="@+id/lessons"
+        android:layout_weight="5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" >
+    </ListView>
 
 </LinearLayout>
