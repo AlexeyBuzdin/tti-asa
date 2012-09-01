@@ -35,6 +35,13 @@ public class LessonsAdapter extends ArrayAdapter<Lesson> {
 		tClassroom = (TextView) rowView.findViewById(R.id.classroom);
 		tProfessor = (TextView) rowView.findViewById(R.id.professor);
 		
+		Lesson lesson = values.get(position);
+		
+		tStartTime.setText(lesson.getTime());
+		tSubject.setText(lesson.getSubject());
+		tClassroom.setText(lesson.getClassroom());
+		tProfessor.setText(lesson.getProfessor());
+		
 		return rowView;
 	}
 	
