@@ -32,40 +32,42 @@ import java.util.regex.Pattern;
 
 public class ScheduleActivity extends Activity implements OnClickListener, ScheduleUpdater {
 
+    // Constants
     private static final int SET_STUDENT_CODE = 0;
     private static final int CALENDAR = 1;
     private static final int ABOUT = 2;
 
+    private ScheduleApplication context;
+
+    // Data
     private User user;
     private String date;
-	private int offset;
+    private String dateCache;
+    private int offsetProblemCounter;
 
+    // Utils
+    private LessonsAdapter lessonsAdapter;
+    private LessonParser lessonParser;
+
+    
+    // Views
     private ImageButton bPrevious;
     private ImageButton bNext;
     private TextView tDate;
     private ListView lvLessons;
-    private LessonsAdapter lessonsAdapter;
-    private LessonParser lessonParser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        lessonParser = new LessonParser(this);
-        user = lessonParser.readUser();
-        if(null == user){
-            enterStudentCode();
-        } else {
-            update();
-        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem city = menu.add(0, SET_STUDENT_CODE, 0, getString(R.string.set_student_code_menu));
         city.setIcon(android.R.drawable.ic_menu_manage);
-        MenuItem refresh = menu.add(0, CALENDAR, 2, getString(R.string.calendar_menu));
-        refresh.setIcon(android.R.drawable.ic_menu_today);
+//        MenuItem refresh = menu.add(0, CALENDAR, 2, getString(R.string.calendar_menu));
+//        refresh.setIcon(android.R.drawable.ic_menu_today);
         MenuItem about = menu.add(0, ABOUT, 3, getString(R.string.about_menu));
         about.setIcon(android.R.drawable.ic_menu_info_details);
         return true;
@@ -86,20 +88,33 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
         return false;
     }
 
-    private void enterStudentCode() {
-        new StudentCodeDialog(this).show();
-    }
-
     private void init() {
         setContentView(R.layout.main);
+
+        context = ScheduleApplication.getInstance();
+
         bPrevious = (ImageButton) findViewById(R.id.previous);
         bNext = (ImageButton) findViewById(R.id.next);
         tDate = (TextView) findViewById(R.id.date);
-        lvLessons = (ListView) findViewById(R.id.lessons);
-        offset = 0;
+        lvLessons = (ListView) findViewById(R.id.lessons);        
 
         bPrevious.setOnClickListener(this);
         bNext.setOnClickListener(this);
+
+        lessonParser = new LessonParser(this);
+
+        if(context.getUser() == null){
+            user = lessonParser.readUser();
+            if(user == null){
+                enterStudentCode();
+                return;
+            } else {
+                context.setUser(user);
+            }
+        } else {
+            user = context.getUser();
+        }
+        update();
 	}
 
 	private void update() {
@@ -113,13 +128,17 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 	    lvLessons.setAdapter(lessonsAdapter);
 	}
 
+    private void enterStudentCode() {
+        new StudentCodeDialog(this).show();
+    }
+
 
 	@Override
 	public void onClick(View v) {
 		if(v.equals(bPrevious)){
-			offset -=1;
+			context.changeOffset((byte)-1);
 		} else if (v.equals(bNext)){
-			offset +=1;
+			context.changeOffset((byte)1);
 		}
 		update();
 	}
@@ -128,10 +147,10 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 		try{
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpContext localContext = new BasicHttpContext();
-			String offsetStr =  "&offset=" + offset;
+			String offsetStr =  "&offset=" + context.getOffset();
 
 			String url = "http://m.tsi.lv/schedule/default.aspx?login=" + user.getStudentCode() + offsetStr;
-			Log.i("URL", url);
+			Log.e("URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			HttpResponse response = httpClient.execute(httpGet, localContext);
 			StringBuilder result = new StringBuilder();
@@ -147,7 +166,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 			  result.append(reader.readLine());
 			}
 
-			Log.i("!Page", result.toString());
+			Log.e("!Page", result.toString());
 			Pattern dayPattern = Pattern.compile("<table .*?>(.*?)<");
 			Pattern lessonPattern = Pattern.compile(
                     "<td.*?><b>(.*?)</b></td>.*?" +
@@ -158,7 +177,18 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 			Matcher matcher = dayPattern.matcher(result);
 			matcher.find();
             Log.i("!Day", matcher.group(1));
-			date = matcher.group(1);
+
+			date = matcher.group(1).trim();
+            if(date.equals(dateCache)){
+                offsetProblemCounter++;
+                if(offsetProblemCounter < 5){
+                    context.changeOffset(context.getOffsetVector());
+                    return getSchedule();
+                }
+            }
+            dateCache = date;
+            offsetProblemCounter = 0;
+
 
 			matcher = lessonPattern.matcher(result);
 			List<Lesson> lessons = new ArrayList<Lesson>();
@@ -183,6 +213,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
     @Override
     public void updateSchedule(User user) {
         this.user = user;
+        context.setUser(user);
         lessonParser.writeUser(user);
         update();
     }

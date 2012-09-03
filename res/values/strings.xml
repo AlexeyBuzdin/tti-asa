@@ -8,4 +8,9 @@
     <string name="calendar_menu">Calendar</string>
     <string name="about_menu">About</string>
 
+    <color name="background">#FEFEFE</color>
+    <color name="list_items1">#F3F3F3</color>
+    <color name="list_items2">#FEFEFE</color>
+    <color name="text">#000</color>
+
 </resources>

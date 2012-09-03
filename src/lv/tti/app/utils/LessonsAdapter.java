@@ -37,6 +37,13 @@ public class LessonsAdapter extends ArrayAdapter<Lesson> {
 		tClassroom = (TextView) rowView.findViewById(R.id.classroom);
 		tProfessor = (TextView) rowView.findViewById(R.id.professor);
 		
+        if(position % 2 == 0){
+            rowView.setBackgroundResource(R.color.list_items1);
+        } else {
+            rowView.setBackgroundResource(R.color.list_items2);
+        }
+        rowView.invalidate();
+
 		Lesson lesson = values.get(position);
 		
 		tStartTime.setText(lesson.getTime());
