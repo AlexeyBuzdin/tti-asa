@@ -1,14 +1,21 @@
-package lv.tti.app;
+package lv.tti.app.models;
+
+import org.simpleframework.xml.Element;
 
 public class Lesson {
+    @Element
 	private String time;
+    @Element
 	private String classroom;
+    @Element
 	private String subject;
+    @Element
 	private String professor;
-	
-	public Lesson(String time, String classroom, String subject,
+
+    public Lesson() {}
+
+    public Lesson(String time, String classroom, String subject,
 			String professor) {
-		super();
 		this.time = time;
 		this.classroom = classroom;
 		this.subject = subject;
@@ -28,7 +35,23 @@ public class Lesson {
 		return professor;
 	}
 
-	@Override
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
+    }
+
+    @Override
 	public String toString() {
 		return "Lesson [time=" + time + ", classroom=" + classroom
 				+ ", subject=" + subject + ", professor=" + professor + "]";

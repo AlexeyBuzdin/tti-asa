@@ -1,13 +1,21 @@
 package lv.tti.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import lv.tti.app.dialogs.StudentCodeDialog;
+import lv.tti.app.models.Lesson;
+import lv.tti.app.models.User;
+import lv.tti.app.utils.LessonParser;
+import lv.tti.app.utils.LessonsAdapter;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -22,36 +30,76 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ScheduleActivity extends Activity implements OnClickListener {
-	
-	private String studentKey = "St54494";
-	private String date;
+public class ScheduleActivity extends Activity implements OnClickListener, ScheduleUpdater {
+
+    private static final int SET_STUDENT_CODE = 0;
+    private static final int CALENDAR = 1;
+    private static final int ABOUT = 2;
+
+    private User user;
+    private String date;
 	private int offset;
-	
-	private ImageButton bPrevious;
-	private ImageButton bNext;
-	private TextView tDate;
-	private ListView lvLessons;
-	private LessonsAdapter lessonsAdapter;
-	
+
+    private ImageButton bPrevious;
+    private ImageButton bNext;
+    private TextView tDate;
+    private ListView lvLessons;
+    private LessonsAdapter lessonsAdapter;
+    private LessonParser lessonParser;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        
-        update();
+        lessonParser = new LessonParser(this);
+        user = lessonParser.readUser();
+        if(null == user){
+            enterStudentCode();
+        } else {
+            update();
+        }
     }
 
-	private void init() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem city = menu.add(0, SET_STUDENT_CODE, 0, getString(R.string.set_student_code_menu));
+        city.setIcon(android.R.drawable.ic_menu_manage);
+        MenuItem refresh = menu.add(0, CALENDAR, 2, getString(R.string.calendar_menu));
+        refresh.setIcon(android.R.drawable.ic_menu_today);
+        MenuItem about = menu.add(0, ABOUT, 3, getString(R.string.about_menu));
+        about.setIcon(android.R.drawable.ic_menu_info_details);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case SET_STUDENT_CODE:
+                enterStudentCode();
+                return true;
+            case CALENDAR:
+                return true;
+            case ABOUT:
+                return true;
+        }
+
+        return false;
+    }
+
+    private void enterStudentCode() {
+        new StudentCodeDialog(this).show();
+    }
+
+    private void init() {
         setContentView(R.layout.main);
         bPrevious = (ImageButton) findViewById(R.id.previous);
         bNext = (ImageButton) findViewById(R.id.next);
         tDate = (TextView) findViewById(R.id.date);
         lvLessons = (ListView) findViewById(R.id.lessons);
-        offset = 1;
-        
+        offset = 0;
+
         bPrevious.setOnClickListener(this);
-        bNext.setOnClickListener(this);		
+        bNext.setOnClickListener(this);
 	}
 
 	private void update() {
@@ -59,11 +107,12 @@ public class ScheduleActivity extends Activity implements OnClickListener {
 	    if(null == lessonsList){
             return;
         }
-        tDate.setText(date); 
-	        
+        tDate.setText(date);
+
 	    lessonsAdapter = new LessonsAdapter(this, lessonsList);
 	    lvLessons.setAdapter(lessonsAdapter);
 	}
+
 
 	@Override
 	public void onClick(View v) {
@@ -74,26 +123,25 @@ public class ScheduleActivity extends Activity implements OnClickListener {
 		}
 		update();
 	}
-    
-	
+
 	private List<Lesson> getSchedule(){
 		try{
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpContext localContext = new BasicHttpContext();
 			String offsetStr =  "&offset=" + offset;
-			
-			String url = "http://m.tsi.lv/schedule/default.aspx?login=" + studentKey + offsetStr;
+
+			String url = "http://m.tsi.lv/schedule/default.aspx?login=" + user.getStudentCode() + offsetStr;
 			Log.i("URL", url);
 			HttpGet httpGet = new HttpGet(url);
 			HttpResponse response = httpClient.execute(httpGet, localContext);
 			StringBuilder result = new StringBuilder();
-			 
+
 			BufferedReader reader = new BufferedReader(
 			    new InputStreamReader(
 			      response.getEntity().getContent()
 			    )
 			  );
-			 
+
 			String line = null;
 			while ((line = reader.readLine()) != null){
 			  result.append(reader.readLine());
@@ -106,12 +154,12 @@ public class ScheduleActivity extends Activity implements OnClickListener {
                     "<td.*?>(.*?)</td>.*?" +
                     "<td.*?>(.*?)</td>.*?" +
                     "<td.*?>(.*?)</td>.*?");
-			
+
 			Matcher matcher = dayPattern.matcher(result);
 			matcher.find();
             Log.i("!Day", matcher.group(1));
-			setDate(matcher.group(1));
-			
+			date = matcher.group(1);
+
 			matcher = lessonPattern.matcher(result);
 			List<Lesson> lessons = new ArrayList<Lesson>();
 			while(matcher.find()){
@@ -123,17 +171,19 @@ public class ScheduleActivity extends Activity implements OnClickListener {
 		} catch (Exception e){
 			Log.w("!!!parsing webpage", e.getLocalizedMessage());
 		}
-		 
+
 		return null;
 	}
-	
-	
-	public String getDate() {
-		return date;
-	}
 
-	public void setDate(String date) {
-		this.date = date;
-	}
-	
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void updateSchedule(User user) {
+        this.user = user;
+        lessonParser.writeUser(user);
+        update();
+    }
 }

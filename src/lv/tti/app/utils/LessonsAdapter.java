@@ -1,6 +1,4 @@
-package lv.tti.app;
-
-import java.util.List;
+package lv.tti.app.utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import lv.tti.app.R;
+import lv.tti.app.models.Lesson;
+
+import java.util.List;
 
 public class LessonsAdapter extends ArrayAdapter<Lesson> {
 	
