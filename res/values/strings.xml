@@ -2,14 +2,14 @@
 <resources>
 
     <string name="app_name">TTI schedule app</string>
-    <string name="enter_code_title">Please enter your code:</string>
+    <string name="enter_code_title">Please enter your login:</string>
     <!-- Menu Items -->
-    <string name="set_student_code_menu">Change code</string>
+    <string name="set_student_code_menu">Change login</string>
     <string name="calendar_menu">Calendar</string>
     <string name="about_menu">About</string>
 
     <color name="background">#FEFEFE</color>
-    <color name="list_items1">#F3F3F3</color>
+    <color name="list_items1">#F0F0F0</color>
     <color name="list_items2">#FEFEFE</color>
     <color name="text">#000</color>
 
