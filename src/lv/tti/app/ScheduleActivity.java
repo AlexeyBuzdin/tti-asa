@@ -216,7 +216,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 			}
 			return lessons;
 		} catch (Exception e){
-			Log.w("!!!parsing webpage", e.getLocalizedMessage());
+			Log.w("!!!parsing webpage", "error");
 		}
 
 		return null;
