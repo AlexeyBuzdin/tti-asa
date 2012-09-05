@@ -63,6 +63,14 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(ScheduleApplication.getInstance().checkForNetworkConnection(this)){
+            updateSchedule();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem city = menu.add(0, SET_STUDENT_CODE, 0, getString(R.string.set_student_code_menu));
         city.setIcon(android.R.drawable.ic_menu_manage);
@@ -77,7 +85,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case SET_STUDENT_CODE:
-                enterStudentCode();
+                enterStudentCode(true);
                 return true;
             case CALENDAR:
                 return true;
@@ -96,17 +104,22 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
         bPrevious = (ImageButton) findViewById(R.id.previous);
         bNext = (ImageButton) findViewById(R.id.next);
         tDate = (TextView) findViewById(R.id.date);
-        lvLessons = (ListView) findViewById(R.id.lessons);        
+        lvLessons = (ListView) findViewById(R.id.lessons);
 
         bPrevious.setOnClickListener(this);
         bNext.setOnClickListener(this);
 
         lessonParser = new LessonParser(this);
 
+        checkCacheForUser();
+        updateSchedule();
+	}
+
+    private void checkCacheForUser() {
         if(context.getUser() == null){
             user = lessonParser.readUser();
             if(user == null){
-                enterStudentCode();
+                enterStudentCode(false);
                 return;
             } else {
                 context.setUser(user);
@@ -114,10 +127,11 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
         } else {
             user = context.getUser();
         }
-        update();
-	}
+    }
 
-	private void update() {
+
+
+    private void updateSchedule() {
 		List<Lesson> lessonsList = getSchedule();
 	    if(null == lessonsList){
             return;
@@ -128,8 +142,11 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 	    lvLessons.setAdapter(lessonsAdapter);
 	}
 
-    private void enterStudentCode() {
-        new StudentCodeDialog(this).show();
+    private void enterStudentCode(boolean cancelable) {
+        StudentCodeDialog studentCodeDialog = new StudentCodeDialog(this);
+        studentCodeDialog.setCancelable(cancelable);
+        studentCodeDialog.show();
+        context.setOffset(0);
     }
 
 
@@ -140,7 +157,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 		} else if (v.equals(bNext)){
 			context.changeOffset((byte)1);
 		}
-		update();
+		updateSchedule();
 	}
 
 	private List<Lesson> getSchedule(){
@@ -172,14 +189,14 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
                     "<td.*?><b>(.*?)</b></td>.*?" +
                     "<td.*?>(.*?)</td>.*?" +
                     "<td.*?>(.*?)</td>.*?" +
-                    "<td.*?>(.*?)</td>.*?");
+                    "<td.*?>(<a href=.*?>)?(.*?)(</a>)?</td>.*?");
 
 			Matcher matcher = dayPattern.matcher(result);
 			matcher.find();
             Log.i("!Day", matcher.group(1));
 
 			date = matcher.group(1).trim();
-            if(date.equals(dateCache)){
+            if(date.equals(dateCache) || result.toString().contains("Server Error")){
                 offsetProblemCounter++;
                 if(offsetProblemCounter < 5){
                     context.changeOffset(context.getOffsetVector());
@@ -193,7 +210,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 			matcher = lessonPattern.matcher(result);
 			List<Lesson> lessons = new ArrayList<Lesson>();
 			while(matcher.find()){
-				Lesson lesson = new Lesson(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+				Lesson lesson = new Lesson(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5));
 				Log.i("!lesson", lesson.toString());
 				lessons.add(lesson);
 			}
@@ -215,6 +232,6 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
         this.user = user;
         context.setUser(user);
         lessonParser.writeUser(user);
-        update();
+        updateSchedule();
     }
 }

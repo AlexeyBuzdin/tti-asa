@@ -24,7 +24,6 @@ public class StudentCodeDialog extends Dialog implements OnClickListener {
 
         this.setContentView(R.layout.enter_code_dialog);
         this.setTitle(super.getContext().getString(R.string.enter_code_title));
-        this.setCancelable(false);
 
         editCode = (EditText) findViewById(R.id.editCode);
 

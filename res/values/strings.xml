@@ -7,8 +7,14 @@
     <string name="set_student_code_menu">Change login</string>
     <string name="calendar_menu">Calendar</string>
     <string name="about_menu">About</string>
+    <string name="save">Save</string>
+    <string name="check_internet">Please check your internet connection!</string>
+    <string name="close_program">Close</string>
+
+    <string name="license">TTI Android schedule app ver.0,5</string>
 
     <color name="background">#FEFEFE</color>
+    <color name="splashscreen">#FF9900</color>
     <color name="list_items1">#F0F0F0</color>
     <color name="list_items2">#FEFEFE</color>
     <color name="text">#000</color>

@@ -13,6 +13,6 @@
         android:layout_height="50dp"
         android:layout_width="100dp"
         android:id="@+id/saveCode"
-        android:text="Save"/>
+        android:text="@string/save"/>
 
 </LinearLayout>

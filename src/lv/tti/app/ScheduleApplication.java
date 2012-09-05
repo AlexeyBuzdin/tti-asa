@@ -1,7 +1,9 @@
 package lv.tti.app;
 
 import android.app.Application;
+import android.content.Context;
 import lv.tti.app.models.User;
+import lv.tti.app.utils.NetworkChecker;
 
 public class ScheduleApplication extends Application{
     private static ScheduleApplication instance;
@@ -13,6 +15,15 @@ public class ScheduleApplication extends Application{
     @Override
     public void onCreate() {
         instance = new ScheduleApplication();
+    }
+
+    public boolean checkForNetworkConnection(Context context) {
+        NetworkChecker networkChecker = NetworkChecker.getInstance();
+        if(!networkChecker.isConnectedToNetwork(context)){
+            networkChecker.displayNoNetworkDialog(context);
+            return false;
+        }
+        return true;
     }
 
     public static ScheduleApplication getInstance() {
@@ -33,6 +44,7 @@ public class ScheduleApplication extends Application{
 
     public void setOffset(int offset) {
         this.offset = offset;
+        offsetVector = 0;
     }
 
 
@@ -44,4 +56,5 @@ public class ScheduleApplication extends Application{
     public byte getOffsetVector() {
         return offsetVector;
     }
+
 }

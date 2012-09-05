@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="@color/splashscreen"
+              android:weightSum="3">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1.4"
+            android:layout_height="0dp"
+            android:layout_width="fill_parent">
+        <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/tsi" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1.4"
+            android:layout_width="fill_parent"
+            android:gravity="center">
+
+        <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:layout_width="fill_parent">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:textSize="16dp"
+            android:text="@string/license"
+            android:textStyle="bold"
+            android:textColor="@color/background"/>
+    </LinearLayout>
+
+</LinearLayout>
