@@ -100,6 +100,7 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
         setContentView(R.layout.main);
 
         context = ScheduleApplication.getInstance();
+        context.changeOffset((byte)0);
 
         bPrevious = (ImageButton) findViewById(R.id.previous);
         bNext = (ImageButton) findViewById(R.id.next);
