@@ -11,7 +11,11 @@
     <string name="check_internet">Please check your internet connection!</string>
     <string name="close_program">Close</string>
 
-    <string name="license">TTI Android schedule app ver.0,5</string>
+    <string name="credits">Alexey Buzdin\nVladislav Barkovskij</string>
+
+    <string name="license">TTI Android schedule app ver 0.5</string>
+    <string name="version">TTI schedule ver 0.5</string>
+    <string name="year">October 2012</string>
 
     <color name="background">#FEFEFE</color>
     <color name="splashscreen">#FF9900</color>

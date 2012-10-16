@@ -6,8 +6,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import lv.tti.app.R;
-import lv.tti.app.ScheduleUpdater;
 import lv.tti.app.models.User;
+import lv.tti.app.utils.ScheduleUpdater;
 
 public class StudentCodeDialog extends Dialog implements OnClickListener {
 
@@ -21,7 +21,6 @@ public class StudentCodeDialog extends Dialog implements OnClickListener {
     }
 
     private void init(){
-
         this.setContentView(R.layout.enter_code_dialog);
         this.setTitle(super.getContext().getString(R.string.enter_code_title));
 
@@ -29,7 +28,6 @@ public class StudentCodeDialog extends Dialog implements OnClickListener {
 
         Button save = (Button)findViewById(R.id.saveCode);
         save.setOnClickListener(this);
-
     }
 
     @Override

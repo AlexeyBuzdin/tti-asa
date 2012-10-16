@@ -1,9 +1,11 @@
-package lv.tti.app;
+package lv.tti.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
+import lv.tti.app.R;
+import lv.tti.app.ScheduleApplication;
 
 public class SplashScreenActivity extends Activity {
 
