@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="@color/splashscreen"
+              android:background="@drawable/background"
               android:weightSum="3">
 
     <LinearLayout
@@ -23,7 +23,7 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_height="0dp"
-            android:layout_weight="1.4"
+            android:layout_weight="1.35"
             android:layout_width="fill_parent"
             android:gravity="center">
 
@@ -46,7 +46,7 @@
             android:textSize="16dp"
             android:text="@string/license"
             android:textStyle="bold"
-            android:textColor="@color/background"/>
+            android:textColor="@color/text"/>
     </LinearLayout>
 
 </LinearLayout>

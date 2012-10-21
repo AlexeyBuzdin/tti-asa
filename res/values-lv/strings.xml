@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TSI Lekciju saraksts</string>
+    <string name="enter_code_title">Ievadiet jūsu loginu</string>
+    <!-- Menu Items -->
+    <string name="set_student_code_menu">Mainīt loginu</string>
+    <string name="calendar_menu">Kalendārs</string>
+    <string name="about_menu">Pār Programmu</string>
+    <string name="save">Saglabāt</string>
+    <string name="check_internet">Pārbaudiet savienojumu</string>
+    <string name="close_program">Aizvērt</string>
+
+    <string name="credits">Alexey Buzdin\nVladislav Barkovskij</string>
+
+    <string name="license">TSI Lekciju saraksts ver 0.5</string>
+    <string name="version">TSI Lekciju saraksts ver 0.5</string>
+    <string name="year">Oktobris 2012</string>
+
+</resources>

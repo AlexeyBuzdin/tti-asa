@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ТСИ, расписание</string>
+    <string name="enter_code_title">Введите логин:</string>
+    <!-- Menu Items -->
+    <string name="set_student_code_menu">Сменить логин</string>
+    <string name="calendar_menu">Календарь</string>
+    <string name="about_menu">О программе</string>
+    <string name="save">Сохранить</string>
+    <string name="check_internet">Пожалуйста проверьти соединение с интернетом!</string>
+    <string name="close_program">Закрыть</string>
+
+    <string name="credits">Алексей Буздин\nВладислав Барковский</string>
+
+    <string name="license">ТСИ, расписание. Версия 0.5</string>
+    <string name="version">ТСИ, расписание. Версия 0.5</string>
+    <string name="year">Октябрь 2012</string>
+
+</resources>
