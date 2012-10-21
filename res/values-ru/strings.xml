@@ -8,7 +8,7 @@
     <string name="calendar_menu">Календарь</string>
     <string name="about_menu">О программе</string>
     <string name="save">Сохранить</string>
-    <string name="check_internet">Пожалуйста проверьти соединение с интернетом!</string>
+    <string name="check_internet">Проверьте соединение!</string>
     <string name="close_program">Закрыть</string>
 
     <string name="credits">Алексей Буздин\nВладислав Барковский</string>

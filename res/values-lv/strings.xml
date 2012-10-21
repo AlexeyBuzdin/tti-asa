@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lekciju saraksts</string>
+    <string name="app_name">Saraksts</string>
     <string name="enter_code_title">Ievadiet jūsu loginu</string>
     <!-- Menu Items -->
     <string name="set_student_code_menu">Mainīt loginu</string>
