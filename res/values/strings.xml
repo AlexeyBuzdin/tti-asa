@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TTI schedule</string>
+    <string name="app_name">Schedule</string>
     <string name="enter_code_title">Please enter your login:</string>
     <!-- Menu Items -->
     <string name="set_student_code_menu">Change login</string>

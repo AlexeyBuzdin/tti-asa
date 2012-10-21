@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ТСИ, расписание</string>
+    <string name="app_name">Расписание</string>
     <string name="enter_code_title">Введите логин:</string>
     <!-- Menu Items -->
     <string name="set_student_code_menu">Сменить логин</string>
