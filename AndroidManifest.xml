@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="lv.tti.app"
-    android:versionCode="1"
-    android:versionName="0.5" >
+    android:versionCode="1.1"
+    android:versionName="0.5a" >
 
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET"/>
