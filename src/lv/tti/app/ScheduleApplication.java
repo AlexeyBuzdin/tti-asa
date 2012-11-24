@@ -89,16 +89,13 @@ public class ScheduleApplication extends Application{
 
     public void setOffset(int offset) {
         this.offset = offset;
-        offsetVector = 0;
     }
 
-
-    public void changeOffset(int offsetVector){
-        this.offsetVector = offsetVector;
-        offset += offsetVector;
+    public void incOffset() {
+        this.offset++;
     }
 
-    public int getOffsetVector() {
-        return offsetVector;
+    public void decOffset() {
+        this.offset--;
     }
 }

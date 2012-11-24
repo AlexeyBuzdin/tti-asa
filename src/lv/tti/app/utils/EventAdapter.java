@@ -7,21 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import lv.tti.app.R;
-import lv.tti.app.models.Lesson;
+import lv.tti.app.models.ScheduleEvent;
 
 import java.util.List;
 
-public class LessonsAdapter extends ArrayAdapter<Lesson> {
-	
+public class EventAdapter extends ArrayAdapter<ScheduleEvent> {
+
 	private final Context context;
-	private final List<Lesson> values;
+	private final List<ScheduleEvent> values;
 
 	private TextView tStartTime;
 	private TextView tSubject;
 	private TextView tClassroom;
 	private TextView tProfessor;
-	
-	public LessonsAdapter(Context context, List<Lesson> values) {
+
+	public EventAdapter(Context context, List<ScheduleEvent> values) {
 		super(context, R.layout.lessonslayout, values);
 		this.context = context;
 		this.values = values;
@@ -36,7 +36,7 @@ public class LessonsAdapter extends ArrayAdapter<Lesson> {
 		tSubject = (TextView) rowView.findViewById(R.id.subject);
 		tClassroom = (TextView) rowView.findViewById(R.id.classroom);
 		tProfessor = (TextView) rowView.findViewById(R.id.professor);
-		
+
         if(position % 2 == 0){
             rowView.setBackgroundResource(R.color.list_items1);
         } else {
@@ -44,14 +44,14 @@ public class LessonsAdapter extends ArrayAdapter<Lesson> {
         }
         rowView.invalidate();
 
-		Lesson lesson = values.get(position);
-		
-		tStartTime.setText(lesson.getTime());
-		tSubject.setText(lesson.getSubject());
-		tClassroom.setText(lesson.getClassroom());
-		tProfessor.setText(lesson.getProfessor());
-		
+        ScheduleEvent event = values.get(position);
+
+        tStartTime.setText(event.time);
+        tSubject.setText(event.name);
+        tClassroom.setText(event.rooms);
+        tProfessor.setText(event.teacher);
+
 		return rowView;
 	}
-	
+
 }

@@ -13,11 +13,9 @@ import android.widget.TextView;
 import lv.tti.app.R;
 import lv.tti.app.ScheduleApplication;
 import lv.tti.app.dialogs.DialogCreator;
-import lv.tti.app.models.Lesson;
+import lv.tti.app.models.ScheduleEvent;
 import lv.tti.app.models.User;
-import lv.tti.app.utils.LessonsAdapter;
-import lv.tti.app.utils.ScheduleParseManager;
-import lv.tti.app.utils.ScheduleUpdater;
+import lv.tti.app.utils.*;
 
 import java.util.List;
 
@@ -29,10 +27,10 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
     private static final int ABOUT = 2;
 
     // Utils
-    private LessonsAdapter lessonsAdapter;
+    private EventAdapter eventAdapter;
     private ScheduleApplication context;
     private DialogCreator dialogCreator;
-    private ScheduleParseManager scheduleParseManager;
+    private EventParseManager eventParseManager;
 
     // Views
     private ImageButton bPrevious;
@@ -84,10 +82,10 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
         setContentView(R.layout.main);
 
         context = ScheduleApplication.getInstance();
-        context.changeOffset(0);
+        context.setOffset(0);
 
         dialogCreator = new DialogCreator(this);
-        scheduleParseManager = new ScheduleParseManager(context);
+        eventParseManager = new EventParseManager(context);
 
         bPrevious = (ImageButton) findViewById(R.id.previous);
         bNext = (ImageButton) findViewById(R.id.next);
@@ -102,22 +100,23 @@ public class ScheduleActivity extends Activity implements OnClickListener, Sched
 	}
 
     private void updateSchedule() {
-		List<Lesson> lessonsList = scheduleParseManager.getSchedule();
-	    if(null == lessonsList){
-            return;
-        }
+        lvLessons.setAdapter(null);
+        List<ScheduleEvent> eventList = eventParseManager.getSchedule();
         tDate.setText(context.getDate());
 
-	    lessonsAdapter = new LessonsAdapter(this, lessonsList);
-	    lvLessons.setAdapter(lessonsAdapter);
+        if(null == eventList) return;
+
+        eventAdapter = new EventAdapter(this, eventList);
+
+        lvLessons.setAdapter(eventAdapter);
 	}
 
 	@Override
 	public void onClick(View v) {
 		if(v.equals(bPrevious)){
-			context.changeOffset(-1);
+			context.decOffset();
 		} else if (v.equals(bNext)){
-			context.changeOffset(1);
+			context.incOffset();
 		}
 		updateSchedule();
 	}

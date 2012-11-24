@@ -33,7 +33,7 @@ public class StudentCodeDialog extends Dialog implements OnClickListener {
     @Override
     public void onClick(View view) {
         hide();
-        User user = new User(editCode.getText().toString(), null);
+        User user = new User(editCode.getText().toString());
         scheduleUpdater.updateSchedule(user);
     }
 }
