@@ -1,4 +1,4 @@
-tti_asa
+Transport and Telecommunication Insitute Schedule app
 =======
 
-Android schedule application for Transport and Telecommunication Institute
+<a href="https://play.google.com/store/apps/details?id=lv.tti.app"><img src="http://www.nhl.com/nhl/images/mobile/landing/btn-google_play.png" alt="Drawing"/></a>
